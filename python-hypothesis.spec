@@ -1,8 +1,8 @@
 %global pkgname hypothesis
 
 Name:           python-%{pkgname}
-Version:        1.8.5
-Release:        2%{?dist}
+Version:        1.9.0
+Release:        1%{?dist}
 Summary:        A library for property based testing
 
 License:        MPLv2.0
@@ -14,10 +14,26 @@ BuildRequires:  python2-devel
 BuildRequires:  python3-devel
 BuildRequires:  python-sphinx
 # Test dependencies
+BuildRequires:  numpy
 BuildRequires:  pytest
+BuildRequires:  pytz
+BuildRequires:  python-django
 BuildRequires:  python-flake8
-BuildRequires:  python3-pytest
+BuildRequires:  python3-django
 BuildRequires:  python3-flake8
+BuildRequires:  python3-numpy
+BuildRequires:  python3-pytest
+BuildRequires:  python3-pytz
+
+Provides:       python2-%{pkgname} = %{version}-%{release}
+# needed only by hypothesis-extras
+Suggests:       numpy
+# fake-factory not packaged yet
+# Suggests:       python2-fake-factory
+Suggests:       pytz
+# Django support requires fake-factory
+# TODO - update to python2-django once available
+# Enhances:       python-django
 
 %description
 Hypothesis is a library for testing your Python code against a much
@@ -29,6 +45,14 @@ flow.
 
 %package     -n python3-%{pkgname}
 Summary:        A library for property based testing
+# needed only by hypothesis-extras
+# fake-factory not packaged yet
+# Suggests:       python3-fake-factory
+Suggests:       python3-numpy
+Suggests:       python3-pytz
+# Django support requires fake-factory
+# Enhances:       python3-django
+
 
 %description -n python3-%{pkgname}
 Hypothesis is a library for testing your Python code against a much
@@ -43,6 +67,10 @@ flow.
 mv %{pkgname}-%{version} python2
 # remove shebang, mergedbs gets installed in sitelib
 %{__sed} -i -e 1,2d python2/src/hypothesis/tools/mergedbs.py
+# remove Django tests for now
+rm -rf python2/tests/django
+# remove fakefactory tests, not packaged yet
+rm -rf python2/tests/fakefactory
 
 cp -a python2 python3
 
@@ -59,7 +87,6 @@ popd
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
 # Must do the python3 install first because the scripts in /usr/bin are
 # overwritten with every setup.py install (and we want the python2 version
 # to be the default for now).
@@ -97,6 +124,9 @@ popd
 
 
 %changelog
+* Wed Jul 29 2015 Michel Alexandre Salim <salimma@fedoraproject.org> - 1.9.0-1
+- Update to 1.9.0
+
 * Fri Jul 24 2015 Michel Alexandre Salim <salimma@fedoraproject.org> - 1.8.5-2
 - Remove she-bang from tools/mergedbs.py
 - Include manpage

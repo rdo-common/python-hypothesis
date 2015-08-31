@@ -1,7 +1,7 @@
 %global pkgname hypothesis
 
 Name:           python-%{pkgname}
-Version:        1.10.0
+Version:        1.10.6
 Release:        1%{?dist}
 Summary:        A library for property based testing
 
@@ -17,9 +17,9 @@ BuildRequires:  python-sphinx
 BuildRequires:  numpy
 BuildRequires:  pytest
 BuildRequires:  pytz
-BuildRequires:  python-django
+#BuildRequires:  python-django
 BuildRequires:  python-flake8
-BuildRequires:  python3-django
+#BuildRequires:  python3-django
 BuildRequires:  python3-flake8
 BuildRequires:  python3-numpy
 BuildRequires:  python3-pytest
@@ -71,8 +71,12 @@ mv %{pkgname}-%{version} python2
 rm -rf python2/tests/django
 # remove fakefactory tests, not packaged yet
 rm -rf python2/tests/fakefactory
+# remove slow tests
+rm -rf python2/tests/nocover
 
 cp -a python2 python3
+# remove py2-specific tests
+rm -rf python3/tests/py2
 
 
 %build
@@ -105,11 +109,11 @@ popd
 # tests are really expensive to run
 # disable for now
 pushd python2
-#{__python2} setup.py test
+%{__python2} setup.py test
 popd
 
 pushd python3
-#{__python3} setup.py test
+%{__python3} setup.py test
 popd
 
 
@@ -126,6 +130,10 @@ popd
 
 
 %changelog
+* Mon Aug 31 2015 Michel Alexandre Salim <salimma@fedoraproject.org> - 1.10.6-1
+- Update to 1.10.6
+- Enable tests
+
 * Fri Aug  7 2015 Michel Alexandre Salim <salimma@fedoraproject.org> - 1.10.0-1
 - Update to 1.10
 

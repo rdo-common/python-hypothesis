@@ -66,7 +66,7 @@ flow.
 
 %prep
 %setup -qc
-%patch0 -p1 -b .tweak_timeouts
+%patch0 -p0 -b .tweak_timeouts
 mv %{pkgname}-%{version} python2
 # remove shebang, mergedbs gets installed in sitelib
 %{__sed} -i -e 1,2d python2/src/hypothesis/tools/mergedbs.py

@@ -8,6 +8,8 @@ Summary:        A library for property based testing
 License:        MPLv2.0
 URL:            https://github.com/DRMacIver/hypothesis
 Source0:        https://github.com/DRMacIver/hypothesis/archive/v%{version}.tar.gz#/hypothesis-%{version}.tar.gz
+# tweak timeouts when running on slow builders
+Patch0:         %{pkgname}-1.10.6-tweak_timeouts.patch
 
 BuildArch:      noarch
 BuildRequires:  python2-devel
@@ -64,6 +66,7 @@ flow.
 
 %prep
 %setup -qc
+%patch0 -p1 -b .tweak_timeouts
 mv %{pkgname}-%{version} python2
 # remove shebang, mergedbs gets installed in sitelib
 %{__sed} -i -e 1,2d python2/src/hypothesis/tools/mergedbs.py

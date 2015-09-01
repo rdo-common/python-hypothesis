@@ -1,0 +1,11 @@
+--- hypothesis-1.10.6/tests/cover/test_basic_strategy.py.tweak_timeouts	2015-08-26 15:30:18.000000000 +0700
++++ hypothesis-1.10.6/tests/cover/test_basic_strategy.py	2015-09-01 09:09:14.265340684 +0700
+@@ -119,7 +119,7 @@
+         simplify=lambda r, v: [v]
+     )
+ 
+-    @timeout(2)
++    @timeout(5)
+     @given(bad_strategy)
+     def oh_noes(x):
+         assert x != 1

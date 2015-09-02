@@ -1,8 +1,8 @@
 %global pkgname hypothesis
 
 Name:           python-%{pkgname}
-Version:        1.10.6
-Release:        3%{?dist}
+Version:        1.11.0
+Release:        1%{?dist}
 Summary:        A library for property based testing
 
 License:        MPLv2.0
@@ -129,6 +129,9 @@ popd
 
 
 %changelog
+* Wed Sep  2 2015 Michel Alexandre Salim <salimma@fedoraproject.org> - 1.11.0-1
+- Update to 1.11.0
+
 * Tue Sep  1 2015 Michel Alexandre Salim <salimma@fedoraproject.org> - 1.10.6-3
 - Re-disable tests for now
 

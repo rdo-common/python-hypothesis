@@ -1,9 +1,10 @@
-%global pkgname hypothesis
+%global srcname hypothesis
+%global sum A library for property based testing
 
-Name:           python-%{pkgname}
-Version:        1.11.0
+Name:           python-%{srcname}
+Version:        1.11.1
 Release:        1%{?dist}
-Summary:        A library for property based testing
+Summary:        %{sum}
 
 License:        MPLv2.0
 URL:            https://github.com/DRMacIver/hypothesis
@@ -25,7 +26,18 @@ BuildRequires:  python3-numpy
 BuildRequires:  python3-pytest
 BuildRequires:  python3-pytz
 
-Provides:       python2-%{pkgname} = %{version}-%{release}
+%description
+Hypothesis is a library for testing your Python code against a much
+larger range of examples than you would ever want to write by
+hand. It’s based on the Haskell library, Quickcheck, and is designed
+to integrate seamlessly into your existing Python unit testing work
+flow.
+
+
+%package     -n python2-%{srcname}
+Summary:        %{sum}
+%{?python_provide:%python_provide python2-%{srcname}}
+Obsoletes:      python-%{srcname} < 1.11.1-1
 # needed only by hypothesis-extras
 Suggests:       numpy
 # fake-factory not packaged yet
@@ -35,7 +47,7 @@ Suggests:       pytz
 # TODO - update to python2-django once available
 # Enhances:       python-django
 
-%description
+%description -n python2-%{srcname}
 Hypothesis is a library for testing your Python code against a much
 larger range of examples than you would ever want to write by
 hand. It’s based on the Haskell library, Quickcheck, and is designed
@@ -43,8 +55,9 @@ to integrate seamlessly into your existing Python unit testing work
 flow.
 
 
-%package     -n python3-%{pkgname}
-Summary:        A library for property based testing
+%package     -n python3-%{srcname}
+Summary:        %{sum}
+%{?python_provide:%python_provide python3-%{srcname}}
 # needed only by hypothesis-extras
 # fake-factory not packaged yet
 # Suggests:       python3-fake-factory
@@ -54,7 +67,7 @@ Suggests:       python3-pytz
 # Enhances:       python3-django
 
 
-%description -n python3-%{pkgname}
+%description -n python3-%{srcname}
 Hypothesis is a library for testing your Python code against a much
 larger range of examples than you would ever want to write by
 hand. It’s based on the Haskell library, Quickcheck, and is designed
@@ -63,72 +76,56 @@ flow.
 
 
 %prep
-%setup -qc
-mv %{pkgname}-%{version} python2
-# remove shebang, mergedbs gets installed in sitelib
-%{__sed} -i -e 1,2d python2/src/hypothesis/tools/mergedbs.py
-# remove Django tests for now
-rm -rf python2/tests/django
-# remove fakefactory tests, not packaged yet
-rm -rf python2/tests/fakefactory
-# remove slow tests
-rm -rf python2/tests/nocover
+%autosetup -n %{srcname}-%{version}
 
-cp -a python2 python3
-# remove py2-specific tests
-rm -rf python3/tests/py2
+# remove shebang, mergedbs gets installed in sitelib
+%{__sed} -i -e 1,2d src/hypothesis/tools/mergedbs.py
+# remove Django tests for now
+rm -rf tests/django
+# remove fakefactory tests, not packaged yet
+rm -rf tests/fakefactory
+# remove slow tests
+rm -rf tests/nocover
 
 
 %build
-pushd python2
-%{__python2} setup.py build
+%py2_build
+%py3_build
 (cd docs && READTHEDOCS=True make man)
-popd
-
-pushd python3
-%{__python3} setup.py build
-popd
 
 
 %install
-# Must do the python3 install first because the scripts in /usr/bin are
-# overwritten with every setup.py install (and we want the python2 version
-# to be the default for now).
-pushd python3
-%{__python3} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
-popd
-
-pushd python2
-%{__python2} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT
+%py2_install
+%py3_install
 %{__install} -Dp -m 644 docs/_build/man/hypothesis.1 \
              $RPM_BUILD_ROOT%{_mandir}/man1/hypothesis.1
-popd
 
 
 %check
-# Tests are still flaky
-pushd python2
-#{__python2} setup.py test
-popd
+%{__python2} setup.py test
 
-pushd python3
-# Python3 tests seem to fail on ARM builder at the moment
-popd
+# remove py2-specific tests
+rm -rf tests/py2
+%{__python3} setup.py test
 
 
-%files
-%license python2/LICENSE.txt
-%doc python2/README.rst
+%files -n python2-%{srcname}
+%license LICENSE.txt
+%doc README.rst
 %{python2_sitelib}/*
 %{_mandir}/man1/hypothesis.1*
 
-%files -n python3-%{pkgname}
-%license python3/LICENSE.txt
-%doc python3/README.rst
+%files -n python3-%{srcname}
+%license LICENSE.txt
+%doc README.rst
 %{python3_sitelib}/*
+%{_mandir}/man1/hypothesis.1*
 
 
 %changelog
+* Sun Sep 20 2015 Michel Alexandre Salim <salimma@fedoraproject.org> - 1.11.1-1
+- Update to 1.11.1
+
 * Wed Sep  2 2015 Michel Alexandre Salim <salimma@fedoraproject.org> - 1.11.0-1
 - Update to 1.11.0
 

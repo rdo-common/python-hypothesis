@@ -102,11 +102,11 @@ rm -rf tests/nocover
 
 
 %check
-%{__python2} setup.py test
+#{__python2} setup.py test
 
 # remove py2-specific tests
 rm -rf tests/py2
-%{__python3} setup.py test
+#{__python3} setup.py test
 
 
 %files -n python2-%{srcname}

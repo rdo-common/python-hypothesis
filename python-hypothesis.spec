@@ -2,7 +2,7 @@
 %global sum A library for property based testing
 
 Name:           python-%{srcname}
-Version:        1.11.1
+Version:        1.11.2
 Release:        1%{?dist}
 Summary:        %{sum}
 
@@ -123,6 +123,9 @@ rm -rf tests/py2
 
 
 %changelog
+* Fri Sep 25 2015 Michel Salim <salimma@fedoraproject.org> - 1.11.2-1
+- Update to 1.11.2
+
 * Sun Sep 20 2015 Michel Alexandre Salim <salimma@fedoraproject.org> - 1.11.1-1
 - Update to 1.11.1
 

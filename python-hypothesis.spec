@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        1.11.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        MPLv2.0
@@ -123,6 +123,9 @@ rm -rf tests/py2
 
 
 %changelog
+* Tue Nov 10 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org>
+- Rebuilt for https://fedoraproject.org/wiki/Changes/python3.5
+
 * Fri Sep 25 2015 Michel Salim <salimma@fedoraproject.org> - 1.11.2-1
 - Update to 1.11.2
 

@@ -102,17 +102,17 @@ rm -rf tests/nocover
 %py2_build
 %if 0%{?with_python3}
 %py3_build
-%endif
 (cd docs && READTHEDOCS=True make man)
+%endif
 
 
 %install
 %py2_install
 %if 0%{?with_python3}
 %py3_install
-%endif
 %{__install} -Dp -m 644 docs/_build/man/hypothesis.1 \
              $RPM_BUILD_ROOT%{_mandir}/man1/hypothesis.1
+%endif
 
 
 %check
@@ -127,7 +127,9 @@ rm -rf tests/py2
 %license LICENSE.txt
 %doc README.rst
 %{python2_sitelib}/*
+%if 0%{?with_python3}
 %{_mandir}/man1/hypothesis.1*
+%endif
 
 %if 0%{?with_python3}
 %files -n python3-%{srcname}

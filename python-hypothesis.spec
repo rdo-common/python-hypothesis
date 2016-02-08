@@ -1,6 +1,10 @@
 %global srcname hypothesis
 %global sum A library for property based testing
 
+%if 0%{?fedora}
+%global with_python3 1
+%endif
+
 Name:           python-%{srcname}
 Version:        1.11.2
 Release:        3%{?dist}
@@ -55,6 +59,7 @@ to integrate seamlessly into your existing Python unit testing work
 flow.
 
 
+%if 0%{?with_python3}
 %package     -n python3-%{srcname}
 Summary:        %{sum}
 %{?python_provide:%python_provide python3-%{srcname}}
@@ -73,6 +78,7 @@ larger range of examples than you would ever want to write by
 hand. It’s based on the Haskell library, Quickcheck, and is designed
 to integrate seamlessly into your existing Python unit testing work
 flow.
+%endif
 
 
 %prep
@@ -90,13 +96,17 @@ rm -rf tests/nocover
 
 %build
 %py2_build
+%if 0%{?with_python3}
 %py3_build
+%endif
 (cd docs && READTHEDOCS=True make man)
 
 
 %install
 %py2_install
+%if 0%{?with_python3}
 %py3_install
+%endif
 %{__install} -Dp -m 644 docs/_build/man/hypothesis.1 \
              $RPM_BUILD_ROOT%{_mandir}/man1/hypothesis.1
 
@@ -115,12 +125,13 @@ rm -rf tests/py2
 %{python2_sitelib}/*
 %{_mandir}/man1/hypothesis.1*
 
+%if 0%{?with_python3}
 %files -n python3-%{srcname}
 %license LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/*
 %{_mandir}/man1/hypothesis.1*
-
+%endif
 
 %changelog
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 1.11.2-3

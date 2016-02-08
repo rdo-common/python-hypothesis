@@ -16,7 +16,6 @@ Source0:        https://github.com/DRMacIver/hypothesis/archive/v%{version}.tar.
 
 BuildArch:      noarch
 BuildRequires:  python2-devel
-BuildRequires:  python3-devel
 BuildRequires:  python-sphinx
 # Test dependencies
 BuildRequires:  numpy
@@ -24,11 +23,6 @@ BuildRequires:  pytest
 BuildRequires:  pytz
 #BuildRequires:  python-django
 BuildRequires:  python-flake8
-#BuildRequires:  python3-django
-BuildRequires:  python3-flake8
-BuildRequires:  python3-numpy
-BuildRequires:  python3-pytest
-BuildRequires:  python3-pytz
 
 %description
 Hypothesis is a library for testing your Python code against a much
@@ -72,6 +66,14 @@ Suggests:       python3-numpy
 Suggests:       python3-pytz
 # Django support requires fake-factory
 # Enhances:       python3-django
+
+BuildRequires:  python3-devel
+#BuildRequires:  python3-django
+BuildRequires:  python3-flake8
+BuildRequires:  python3-numpy
+BuildRequires:  python3-pytest
+BuildRequires:  python3-pytz
+
 
 
 %description -n python3-%{srcname}

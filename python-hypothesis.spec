@@ -42,6 +42,7 @@ flow.
 Summary:        %{sum}
 %{?python_provide:%python_provide python2-%{srcname}}
 Obsoletes:      python-%{srcname} < 1.11.1-1
+%if 0%{?with_python3}
 # needed only by hypothesis-extras
 Suggests:       numpy
 # fake-factory not packaged yet
@@ -50,6 +51,7 @@ Suggests:       pytz
 # Django support requires fake-factory
 # TODO - update to python2-django once available
 # Enhances:       python-django
+%endif
 
 %description -n python2-%{srcname}
 Hypothesis is a library for testing your Python code against a much

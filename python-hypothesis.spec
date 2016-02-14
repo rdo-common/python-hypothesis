@@ -13,6 +13,8 @@ Summary:        %{sum}
 License:        MPLv2.0
 URL:            https://github.com/DRMacIver/hypothesis
 Source0:        https://github.com/DRMacIver/hypothesis/archive/%{version}.tar.gz#/hypothesis-%{version}.tar.gz
+# disable Sphinx extensions that require Internet access
+Patch0:         %{srcname}-2.0.0-offline.patch
 
 BuildArch:      noarch
 BuildRequires:  python2-devel
@@ -87,7 +89,7 @@ flow.
 
 
 %prep
-%autosetup -n %{srcname}-%{version}
+%autosetup -n %{srcname}-%{version} -p1
 
 # remove shebang, mergedbs gets installed in sitelib
 %{__sed} -i -e 1,2d src/hypothesis/tools/mergedbs.py
@@ -104,7 +106,7 @@ rm -rf tests/nocover
 %if 0%{?with_python3}
 %py3_build
 #(cd docs && READTHEDOCS=True make man)
-sphinx-build -W -b man -d docs/_build/doctrees docs docs/_build/man
+sphinx-build -b man -d docs/_build/doctrees docs docs/_build/man
 %endif
 
 

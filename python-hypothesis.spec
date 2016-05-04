@@ -16,6 +16,7 @@ Patch0:         %{srcname}-2.0.0-offline.patch
 BuildArch:      noarch
 BuildRequires:  python2-devel
 BuildRequires:  python-sphinx
+BuildRequires:  python-enum34
 
 %if 0%{?fedora}
 BuildRequires:  python3-devel
@@ -32,6 +33,7 @@ flow.
 %package     -n python2-%{srcname}
 Summary:        A library for property based testing
 Obsoletes:      python-%{srcname} < 1.11.1-1
+Requires:       python-enum34
 
 %if 0%{?fedora}
 %{?python_provide:%python_provide python2-%{srcname}}

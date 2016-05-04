@@ -17,6 +17,10 @@ BuildArch:      noarch
 BuildRequires:  python2-devel
 BuildRequires:  python-sphinx
 
+%if 0%{?fedora}
+BuildRequires:  python3-devel
+%endif
+
 %description
 Hypothesis is a library for testing your Python code against a much
 larger range of examples than you would ever want to write by

@@ -1,14 +1,11 @@
+%{!?__python2: %global __python2 /usr/bin/python2}
 %global srcname hypothesis
-%global sum A library for property based testing
 
-%if 0%{?fedora}
-%global with_python3 1
-%endif
 
 Name:           python-%{srcname}
-Version:        2.0.0
+Version:        3.1.3
 Release:        1%{?dist}
-Summary:        %{sum}
+Summary:        A library for property based testing
 
 License:        MPLv2.0
 URL:            https://github.com/DRMacIver/hypothesis
@@ -19,13 +16,6 @@ Patch0:         %{srcname}-2.0.0-offline.patch
 BuildArch:      noarch
 BuildRequires:  python2-devel
 BuildRequires:  python-sphinx
-BuildRequires:  python-sphinx_rtd_theme
-# Test dependencies
-BuildRequires:  numpy
-BuildRequires:  pytest
-BuildRequires:  pytz
-#BuildRequires:  python-django
-BuildRequires:  python-flake8
 
 %description
 Hypothesis is a library for testing your Python code against a much
@@ -36,18 +26,15 @@ flow.
 
 
 %package     -n python2-%{srcname}
-Summary:        %{sum}
-%{?python_provide:%python_provide python2-%{srcname}}
+Summary:        A library for property based testing
 Obsoletes:      python-%{srcname} < 1.11.1-1
-%if 0%{?with_python3}
-# needed only by hypothesis-extras
+
+%if 0%{?fedora}
+%{?python_provide:%python_provide python2-%{srcname}}
 Suggests:       numpy
-# fake-factory not packaged yet
-# Suggests:       python2-fake-factory
 Suggests:       pytz
-# Django support requires fake-factory
-# TODO - update to python2-django once available
-# Enhances:       python-django
+%else
+Provides:       python-hypothesis
 %endif
 
 %description -n python2-%{srcname}
@@ -58,26 +45,13 @@ to integrate seamlessly into your existing Python unit testing work
 flow.
 
 
-%if 0%{?with_python3}
+%if 0%{?fedora}
 %package     -n python3-%{srcname}
-Summary:        %{sum}
+Summary:        A library for property based testing
 %{?python_provide:%python_provide python3-%{srcname}}
-# needed only by hypothesis-extras
-# fake-factory not packaged yet
-# Suggests:       python3-fake-factory
+
 Suggests:       python3-numpy
 Suggests:       python3-pytz
-# Django support requires fake-factory
-# Enhances:       python3-django
-
-BuildRequires:  python3-devel
-#BuildRequires:  python3-django
-BuildRequires:  python3-flake8
-BuildRequires:  python3-numpy
-BuildRequires:  python3-pytest
-BuildRequires:  python3-pytz
-
-
 
 %description -n python3-%{srcname}
 Hypothesis is a library for testing your Python code against a much
@@ -89,53 +63,42 @@ flow.
 
 
 %prep
-%autosetup -n %{srcname}-%{version} -p1
+%autosetup -n %{srcname}-python-%{version} -p1
 
 # remove shebang, mergedbs gets installed in sitelib
 %{__sed} -i -e 1,2d src/hypothesis/tools/mergedbs.py
-# remove Django tests for now
-rm -rf tests/django
-# remove fakefactory tests, not packaged yet
-rm -rf tests/fakefactory
-# remove slow tests
-rm -rf tests/nocover
 
 
 %build
+%if 0%{?fedora}
 %py2_build
-%if 0%{?with_python3}
 %py3_build
-#(cd docs && READTHEDOCS=True make man)
-sphinx-build -b man -d docs/_build/doctrees docs docs/_build/man
+READTHEDOCS=True sphinx-build -b man docs docs/_build/man
+%else
+%{__python2} setup.py build
 %endif
 
 
 %install
+%if 0%{?fedora}
 %py2_install
-%if 0%{?with_python3}
 %py3_install
 %{__install} -Dp -m 644 docs/_build/man/hypothesis.1 \
              $RPM_BUILD_ROOT%{_mandir}/man1/hypothesis.1
+%else
+%{__python2} setup.py install --skip-build --prefix=%{_prefix} --root %{buildroot}
 %endif
-
-
-%check
-#{__python2} setup.py test
-
-# remove py2-specific tests
-rm -rf tests/py2
-#{__python3} setup.py test
 
 
 %files -n python2-%{srcname}
 %license LICENSE.txt
 %doc README.rst
 %{python2_sitelib}/*
-%if 0%{?with_python3}
+%if 0%{?fedora}
 %{_mandir}/man1/hypothesis.1*
 %endif
 
-%if 0%{?with_python3}
+%if 0%{?fedora}
 %files -n python3-%{srcname}
 %license LICENSE.txt
 %doc README.rst
@@ -144,6 +107,11 @@ rm -rf tests/py2
 %endif
 
 %changelog
+* Wed May 04 2016 Nathaniel McCallum <npmccallum@redhat.com> - 3.1.3-1
+- Update to 3.1.3
+- Remove unused code
+- Remove unused dependencies
+
 * Sun Feb 14 2016 Michel Salim <salimma@fedoraproject.org> - 2.0.0-1
 - Update to 2.0.0
 

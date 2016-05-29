@@ -3,7 +3,7 @@
 
 
 Name:           python-%{srcname}
-Version:        3.1.3
+Version:        3.4.0
 Release:        1%{?dist}
 Summary:        A library for property based testing
 
@@ -40,7 +40,7 @@ Requires:       python-enum34
 Suggests:       numpy
 Suggests:       pytz
 %else
-Provides:       python-hypothesis
+Provides:       python-hypothesis = %{version}-%{release}
 %endif
 
 %description -n python2-%{srcname}
@@ -113,6 +113,10 @@ READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 %endif
 
 %changelog
+* Sun May 29 2016 Michel Alexandre Salim <salimma@fedoraproject.org> - 3.4.0-1
+- Update to 3.4.0
+- Version the explicit Provides
+
 * Wed May 04 2016 Nathaniel McCallum <npmccallum@redhat.com> - 3.1.3-1
 - Update to 3.1.3
 - Remove unused code

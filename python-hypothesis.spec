@@ -4,7 +4,7 @@
 
 Name:           python-%{srcname}
 Version:        3.4.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A library for property based testing
 
 License:        MPLv2.0
@@ -113,6 +113,9 @@ READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 %endif
 
 %changelog
+* Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 3.4.0-2
+- https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
+
 * Sun May 29 2016 Michel Alexandre Salim <salimma@fedoraproject.org> - 3.4.0-1
 - Update to 3.4.0
 - Version the explicit Provides

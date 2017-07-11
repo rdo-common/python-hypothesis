@@ -1,26 +1,24 @@
-%{!?__python2: %global __python2 /usr/bin/python2}
 %global srcname hypothesis
+%global sum A library for property based testing
 
 
 Name:           python-%{srcname}
-Version:        3.4.0
-Release:        4%{?dist}
-Summary:        A library for property based testing
+Version:        3.12.0
+Release:        1%{?dist}
+Summary:        %{sum}
 
 License:        MPLv2.0
-URL:            https://github.com/DRMacIver/hypothesis
-Source0:        https://github.com/DRMacIver/hypothesis/archive/%{version}.tar.gz#/hypothesis-%{version}.tar.gz
+URL:            https://github.com/HypothesisWorks/hypothesis-python
+Source0:        %{url}/archive/%{version}.tar.gz#/hypothesis-%{version}.tar.gz
 # disable Sphinx extensions that require Internet access
-Patch0:         %{srcname}-2.0.0-offline.patch
+Patch0:         %{srcname}-3.12.0-offline.patch
 
 BuildArch:      noarch
 BuildRequires:  python2-devel
 BuildRequires:  python-sphinx
 BuildRequires:  python-enum34
-
-%if 0%{?fedora}
-BuildRequires:  python3-devel
-%endif
+BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-setuptools
 
 %description
 Hypothesis is a library for testing your Python code against a much
@@ -35,12 +33,10 @@ Summary:        A library for property based testing
 Obsoletes:      python-%{srcname} < 1.11.1-1
 Requires:       python-enum34
 
-%if 0%{?fedora}
 %{?python_provide:%python_provide python2-%{srcname}}
+%if 0%{?fedora}
 Suggests:       numpy
 Suggests:       pytz
-%else
-Provides:       python-hypothesis = %{version}-%{release}
 %endif
 
 %description -n python2-%{srcname}
@@ -51,21 +47,20 @@ to integrate seamlessly into your existing Python unit testing work
 flow.
 
 
-%if 0%{?fedora}
-%package     -n python3-%{srcname}
+%package     -n python%{python3_pkgversion}-%{srcname}
 Summary:        A library for property based testing
-%{?python_provide:%python_provide python3-%{srcname}}
+%{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
+%if 0%{?fedora}
+Suggests:       python%{python3_pkgversion}-numpy
+Suggests:       python%{python3_pkgversion}-pytz
+%endif
 
-Suggests:       python3-numpy
-Suggests:       python3-pytz
-
-%description -n python3-%{srcname}
+%description -n python%{python3_pkgversion}-%{srcname}
 Hypothesis is a library for testing your Python code against a much
 larger range of examples than you would ever want to write by
 hand. It’s based on the Haskell library, Quickcheck, and is designed
 to integrate seamlessly into your existing Python unit testing work
 flow.
-%endif
 
 
 %prep
@@ -76,43 +71,36 @@ flow.
 
 
 %build
-%if 0%{?fedora}
 %py2_build
 %py3_build
-READTHEDOCS=True sphinx-build -b man docs docs/_build/man
-%else
-%{__python2} setup.py build
-%endif
+PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 
 
 %install
-%if 0%{?fedora}
 %py2_install
 %py3_install
 %{__install} -Dp -m 644 docs/_build/man/hypothesis.1 \
              $RPM_BUILD_ROOT%{_mandir}/man1/hypothesis.1
-%else
-%{__python2} setup.py install --skip-build --prefix=%{_prefix} --root %{buildroot}
-%endif
 
 
 %files -n python2-%{srcname}
 %license LICENSE.txt
 %doc README.rst
 %{python2_sitelib}/*
-%if 0%{?fedora}
 %{_mandir}/man1/hypothesis.1*
-%endif
 
-%if 0%{?fedora}
-%files -n python3-%{srcname}
+%files -n python%{python3_pkgversion}-%{srcname}
 %license LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/*
 %{_mandir}/man1/hypothesis.1*
-%endif
+
 
 %changelog
+* Mon Jul 10 2017 Michel Alexandre Salim <salimma@fedoraproject.org> - 3.12.0-1
+- Update to 3.12.0
+- Reenable docs in EPEL7
+
 * Sat Feb 11 2017 Fedora Release Engineering <releng@fedoraproject.org> - 3.4.0-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 

@@ -4,7 +4,7 @@
 
 Name:           python-%{srcname}
 Version:        3.12.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        %{sum}
 
 License:        MPLv2.0
@@ -97,6 +97,9 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 
 
 %changelog
+* Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 3.12.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
 * Mon Jul 10 2017 Michel Alexandre Salim <salimma@fedoraproject.org> - 3.12.0-1
 - Update to 3.12.0
 - Reenable docs in EPEL7

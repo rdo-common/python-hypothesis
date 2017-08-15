@@ -1,10 +1,13 @@
 %global srcname hypothesis
 %global sum A library for property based testing
 
+%bcond_without python2
+%bcond_without python3
+%bcond_without platform_python
 
 Name:           python-%{srcname}
 Version:        3.12.0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        %{sum}
 
 License:        MPLv2.0
@@ -14,11 +17,21 @@ Source0:        %{url}/archive/%{version}.tar.gz#/hypothesis-%{version}.tar.gz
 Patch0:         %{srcname}-3.12.0-offline.patch
 
 BuildArch:      noarch
+
+%if %{with python2}
 BuildRequires:  python2-devel
 BuildRequires:  python-sphinx
 BuildRequires:  python-enum34
+%endif
+%if %{with python3}
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-setuptools
+BuildRequires:  python3-sphinx
+%endif
+%if %{with platform_python}
+BuildRequires:  platform-python-devel
+BuildRequires:  platform-python-setuptools
+%endif
 
 %description
 Hypothesis is a library for testing your Python code against a much
@@ -28,6 +41,7 @@ to integrate seamlessly into your existing Python unit testing work
 flow.
 
 
+%if %{with python2}
 %package     -n python2-%{srcname}
 Summary:        A library for property based testing
 Obsoletes:      python-%{srcname} < 1.11.1-1
@@ -46,7 +60,10 @@ hand. It’s based on the Haskell library, Quickcheck, and is designed
 to integrate seamlessly into your existing Python unit testing work
 flow.
 
+%endif
 
+
+%if %{with python3}
 %package     -n python%{python3_pkgversion}-%{srcname}
 Summary:        A library for property based testing
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
@@ -62,6 +79,20 @@ hand. It’s based on the Haskell library, Quickcheck, and is designed
 to integrate seamlessly into your existing Python unit testing work
 flow.
 
+%endif
+
+%if %{with platform_python}
+%package     -n platform-python-%{srcname}
+Summary:        A library for property based testing
+
+%description -n platform-python-%{srcname}
+Hypothesis is a library for testing your Python code against a much
+larger range of examples than you would ever want to write by
+hand. It’s based on the Haskell library, Quickcheck, and is designed
+to integrate seamlessly into your existing Python unit testing work
+flow.
+%endif
+
 
 %prep
 %autosetup -n %{srcname}-python-%{version} -p1
@@ -71,32 +102,69 @@ flow.
 
 
 %build
+%if %{with python2}
 %py2_build
-%py3_build
+%if %{without python3}
 PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
+%endif
+%endif
+
+%if %{with python3}
+%py3_build
+PYTHONPATH=src READTHEDOCS=True sphinx-build-3 -b man docs docs/_build/man
+%endif
+
+%if %{with platform_python}
+%platform_py_build
+%endif
 
 
 %install
+%if %{with python2}
 %py2_install
+%endif
+
+%if %{with platform_python}
+%platform_py_install
+%endif
+
+%if %{with python3}
 %py3_install
+%endif
+
 %{__install} -Dp -m 644 docs/_build/man/hypothesis.1 \
              $RPM_BUILD_ROOT%{_mandir}/man1/hypothesis.1
 
 
+%if %{with python2}
 %files -n python2-%{srcname}
 %license LICENSE.txt
 %doc README.rst
 %{python2_sitelib}/*
 %{_mandir}/man1/hypothesis.1*
+%endif
 
+%if %{with python3}
 %files -n python%{python3_pkgversion}-%{srcname}
 %license LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/*
 %{_mandir}/man1/hypothesis.1*
+%endif
+
+%if %{with platform_python}
+%files -n platform-python-%{srcname}
+%license LICENSE.txt
+%doc README.rst
+%{platform_python_sitelib}/*
+%{_mandir}/man1/hypothesis.1*
+%endif
 
 
 %changelog
+* Thu Aug 10 2017 Tomas Orsava <torsava@redhat.com> - 3.12.0-3
+- Added the platform-python subpackage
+
 * Thu Jul 27 2017 Fedora Release Engineering <releng@fedoraproject.org> - 3.12.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 

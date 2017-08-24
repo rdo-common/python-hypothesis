@@ -7,7 +7,7 @@
 
 Name:           python-%{srcname}
 Version:        3.12.0
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        %{sum}
 
 License:        MPLv2.0
@@ -162,6 +162,9 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build-3 -b man docs docs/_build/man
 
 
 %changelog
+* Thu Aug 24 2017 Miro Hrončok <mhroncok@redhat.com> - 3.12.0-4
+- Rebuilt for rhbz#1484607
+
 * Thu Aug 10 2017 Tomas Orsava <torsava@redhat.com> - 3.12.0-3
 - Added the platform-python subpackage
 

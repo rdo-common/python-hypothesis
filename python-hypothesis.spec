@@ -11,7 +11,7 @@ Summary:        Library for property based testing
 
 License:        MPLv2.0
 URL:            https://github.com/HypothesisWorks/hypothesis-python
-Source0:        %{url}/archive/%{version}.tar.gz#/hypothesis-%{version}.tar.gz
+Source0:        %{url}/archive/%{version}/%{srcname}-%{version}.tar.gz
 # disable Sphinx extensions that require Internet access
 Patch0:         %{srcname}-3.12.0-offline.patch
 

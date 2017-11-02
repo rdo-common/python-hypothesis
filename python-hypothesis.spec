@@ -31,7 +31,6 @@ Summary:        %{summary}
 BuildRequires:  python2-devel
 BuildRequires:  python2-sphinx
 BuildRequires:  python2-enum34
-Obsoletes:      python-%{srcname} < 1.11.1-1
 Requires:       python2-enum34
 
 %{?python_provide:%python_provide python2-%{srcname}}

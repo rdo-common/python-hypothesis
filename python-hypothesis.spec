@@ -19,8 +19,8 @@ BuildArch:      noarch
 
 %if %{with python2}
 BuildRequires:  python2-devel
-BuildRequires:  python-sphinx
-BuildRequires:  python-enum34
+BuildRequires:  python2-sphinx
+BuildRequires:  python2-enum34
 %endif
 %if %{with python3}
 BuildRequires:  python3-devel
@@ -44,12 +44,12 @@ flow.
 %package     -n python2-%{srcname}
 Summary:        %{summary}
 Obsoletes:      python-%{srcname} < 1.11.1-1
-Requires:       python-enum34
+Requires:       python2-enum34
 
 %{?python_provide:%python_provide python2-%{srcname}}
 %if ! (0%{?rhel} && 0%{?rhel} <= 7)
-Suggests:       numpy
-Suggests:       pytz
+Suggests:       python2-numpy
+Suggests:       python2-pytz
 %endif
 
 %description -n python2-%{srcname}

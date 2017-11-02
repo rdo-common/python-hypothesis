@@ -47,7 +47,7 @@ Obsoletes:      python-%{srcname} < 1.11.1-1
 Requires:       python-enum34
 
 %{?python_provide:%python_provide python2-%{srcname}}
-%if 0%{?fedora}
+%if ! (0%{?rhel} && 0%{?rhel} <= 7)
 Suggests:       numpy
 Suggests:       pytz
 %endif
@@ -66,7 +66,7 @@ flow.
 %package     -n python%{python3_pkgversion}-%{srcname}
 Summary:        %{summary}
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
-%if 0%{?fedora}
+%if ! (0%{?rhel} && 0%{?rhel} <= 7)
 Suggests:       python%{python3_pkgversion}-numpy
 Suggests:       python%{python3_pkgversion}-pytz
 %endif

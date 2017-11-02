@@ -11,6 +11,9 @@ Source0:        %{url}/archive/%{version}/%{srcname}-%{version}.tar.gz
 # disable Sphinx extensions that require Internet access
 Patch0:         %{srcname}-3.12.0-offline.patch
 
+# Manpage
+BuildRequires:  %{_bindir}/sphinx-build
+
 BuildArch:      noarch
 
 %description
@@ -23,7 +26,6 @@ flow.
 %package     -n python2-%{srcname}
 Summary:        %{summary}
 BuildRequires:  python2-devel
-BuildRequires:  python2-sphinx
 BuildRequires:  python2-enum34
 Requires:       python2-enum34
 %{?python_provide:%python_provide python2-%{srcname}}
@@ -43,7 +45,6 @@ flow.
 Summary:        %{summary}
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
-BuildRequires:  python3-sphinx
 %{?python_provide:%python_provide python3-%{srcname}}
 %if ! (0%{?rhel} && 0%{?rhel} <= 7)
 Suggests:       python3-numpy

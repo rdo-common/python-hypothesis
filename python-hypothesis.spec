@@ -1,8 +1,8 @@
 %global srcname hypothesis
 
 Name:           python-%{srcname}
-Version:        3.12.0
-Release:        4%{?dist}
+Version:        3.33.1
+Release:        1%{?dist}
 Summary:        Library for property based testing
 
 License:        MPLv2.0
@@ -28,9 +28,13 @@ flow.
 %package     -n python2-%{srcname}
 Summary:        %{summary}
 BuildRequires:  python2-devel
+BuildRequires:  python2-attrs
+BuildRequires:  python2-coverage
 BuildRequires:  python2-enum34
-Requires:       python2-enum34
 %{?python_provide:%python_provide python2-%{srcname}}
+Requires:       python2-attrs
+Requires:       python2-coverage
+Requires:       python2-enum34
 %if ! (0%{?rhel} && 0%{?rhel} <= 7)
 Suggests:       python2-numpy
 Suggests:       python2-pytz
@@ -44,7 +48,11 @@ Python 2 version.
 Summary:        %{summary}
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
+BuildRequires:  python3-attrs
+BuildRequires:  python3-coverage
 %{?python_provide:%python_provide python3-%{srcname}}
+Requires:       python3-attrs
+Requires:       python3-coverage
 %if ! (0%{?rhel} && 0%{?rhel} <= 7)
 Suggests:       python3-numpy
 Suggests:       python3-pytz
@@ -57,9 +65,6 @@ Python 2 version.
 
 %prep
 %autosetup -n %{srcname}-python-%{version} -p1
-
-# remove shebang, mergedbs gets installed in sitelib
-%{__sed} -i -e 1,2d src/hypothesis/tools/mergedbs.py
 
 %build
 %py2_build
@@ -86,6 +91,9 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 %{_mandir}/man1/hypothesis.1*
 
 %changelog
+* Thu Nov 02 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.33.1-1
+- Update to 3.33.1
+
 * Thu Aug 24 2017 Miro Hrončok <mhroncok@redhat.com> - 3.12.0-4
 - Rebuilt for rhbz#1484607
 

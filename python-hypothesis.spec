@@ -1,5 +1,4 @@
 %global srcname hypothesis
-%global sum A library for property based testing
 
 %bcond_without python2
 %bcond_without python3
@@ -8,7 +7,7 @@
 Name:           python-%{srcname}
 Version:        3.12.0
 Release:        4%{?dist}
-Summary:        %{sum}
+Summary:        Library for property based testing
 
 License:        MPLv2.0
 URL:            https://github.com/HypothesisWorks/hypothesis-python
@@ -43,7 +42,7 @@ flow.
 
 %if %{with python2}
 %package     -n python2-%{srcname}
-Summary:        A library for property based testing
+Summary:        %{summary}
 Obsoletes:      python-%{srcname} < 1.11.1-1
 Requires:       python-enum34
 
@@ -65,7 +64,7 @@ flow.
 
 %if %{with python3}
 %package     -n python%{python3_pkgversion}-%{srcname}
-Summary:        A library for property based testing
+Summary:        %{summary}
 %{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
 %if 0%{?fedora}
 Suggests:       python%{python3_pkgversion}-numpy
@@ -83,7 +82,7 @@ flow.
 
 %if %{with platform_python}
 %package     -n platform-python-%{srcname}
-Summary:        A library for property based testing
+Summary:        %{summary}
 
 %description -n platform-python-%{srcname}
 Hypothesis is a library for testing your Python code against a much

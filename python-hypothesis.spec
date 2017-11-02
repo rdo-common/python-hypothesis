@@ -24,7 +24,6 @@ hand. It’s based on the Haskell library, Quickcheck, and is designed
 to integrate seamlessly into your existing Python unit testing work
 flow.
 
-
 %if %{with python2}
 %package     -n python2-%{srcname}
 Summary:        %{summary}
@@ -32,7 +31,6 @@ BuildRequires:  python2-devel
 BuildRequires:  python2-sphinx
 BuildRequires:  python2-enum34
 Requires:       python2-enum34
-
 %{?python_provide:%python_provide python2-%{srcname}}
 %if ! (0%{?rhel} && 0%{?rhel} <= 7)
 Suggests:       python2-numpy
@@ -45,9 +43,7 @@ larger range of examples than you would ever want to write by
 hand. It’s based on the Haskell library, Quickcheck, and is designed
 to integrate seamlessly into your existing Python unit testing work
 flow.
-
 %endif
-
 
 %if %{with python3}
 %package     -n python3-%{srcname}
@@ -67,7 +63,6 @@ larger range of examples than you would ever want to write by
 hand. It’s based on the Haskell library, Quickcheck, and is designed
 to integrate seamlessly into your existing Python unit testing work
 flow.
-
 %endif
 
 %if %{with platform_python}
@@ -84,13 +79,11 @@ to integrate seamlessly into your existing Python unit testing work
 flow.
 %endif
 
-
 %prep
 %autosetup -n %{srcname}-python-%{version} -p1
 
 # remove shebang, mergedbs gets installed in sitelib
 %{__sed} -i -e 1,2d src/hypothesis/tools/mergedbs.py
-
 
 %build
 %if %{with python2}
@@ -109,7 +102,6 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build-3 -b man docs docs/_build/man
 %platform_py_build
 %endif
 
-
 %install
 %if %{with python2}
 %py2_install
@@ -125,7 +117,6 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build-3 -b man docs docs/_build/man
 
 %{__install} -Dp -m 644 docs/_build/man/hypothesis.1 \
              $RPM_BUILD_ROOT%{_mandir}/man1/hypothesis.1
-
 
 %if %{with python2}
 %files -n python2-%{srcname}
@@ -150,7 +141,6 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build-3 -b man docs docs/_build/man
 %{platform_python_sitelib}/*
 %{_mandir}/man1/hypothesis.1*
 %endif
-
 
 %changelog
 * Thu Aug 24 2017 Miro Hrončok <mhroncok@redhat.com> - 3.12.0-4

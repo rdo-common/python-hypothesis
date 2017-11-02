@@ -23,8 +23,8 @@ BuildRequires:  python-sphinx
 BuildRequires:  python-enum34
 %endif
 %if %{with python3}
-BuildRequires:  python%{python3_pkgversion}-devel
-BuildRequires:  python%{python3_pkgversion}-setuptools
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  python3-sphinx
 %endif
 %if %{with platform_python}
@@ -63,15 +63,15 @@ flow.
 
 
 %if %{with python3}
-%package     -n python%{python3_pkgversion}-%{srcname}
+%package     -n python3-%{srcname}
 Summary:        %{summary}
-%{?python_provide:%python_provide python%{python3_pkgversion}-%{srcname}}
+%{?python_provide:%python_provide python3-%{srcname}}
 %if ! (0%{?rhel} && 0%{?rhel} <= 7)
-Suggests:       python%{python3_pkgversion}-numpy
-Suggests:       python%{python3_pkgversion}-pytz
+Suggests:       python3-numpy
+Suggests:       python3-pytz
 %endif
 
-%description -n python%{python3_pkgversion}-%{srcname}
+%description -n python3-%{srcname}
 Hypothesis is a library for testing your Python code against a much
 larger range of examples than you would ever want to write by
 hand. It’s based on the Haskell library, Quickcheck, and is designed
@@ -144,7 +144,7 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build-3 -b man docs docs/_build/man
 %endif
 
 %if %{with python3}
-%files -n python%{python3_pkgversion}-%{srcname}
+%files -n python3-%{srcname}
 %license LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/*

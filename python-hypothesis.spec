@@ -17,21 +17,6 @@ Patch0:         %{srcname}-3.12.0-offline.patch
 
 BuildArch:      noarch
 
-%if %{with python2}
-BuildRequires:  python2-devel
-BuildRequires:  python2-sphinx
-BuildRequires:  python2-enum34
-%endif
-%if %{with python3}
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-sphinx
-%endif
-%if %{with platform_python}
-BuildRequires:  platform-python-devel
-BuildRequires:  platform-python-setuptools
-%endif
-
 %description
 Hypothesis is a library for testing your Python code against a much
 larger range of examples than you would ever want to write by
@@ -43,6 +28,9 @@ flow.
 %if %{with python2}
 %package     -n python2-%{srcname}
 Summary:        %{summary}
+BuildRequires:  python2-devel
+BuildRequires:  python2-sphinx
+BuildRequires:  python2-enum34
 Obsoletes:      python-%{srcname} < 1.11.1-1
 Requires:       python2-enum34
 
@@ -65,6 +53,9 @@ flow.
 %if %{with python3}
 %package     -n python3-%{srcname}
 Summary:        %{summary}
+BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
+BuildRequires:  python3-sphinx
 %{?python_provide:%python_provide python3-%{srcname}}
 %if ! (0%{?rhel} && 0%{?rhel} <= 7)
 Suggests:       python3-numpy
@@ -83,6 +74,8 @@ flow.
 %if %{with platform_python}
 %package     -n platform-python-%{srcname}
 Summary:        %{summary}
+BuildRequires:  platform-python-devel
+BuildRequires:  platform-python-setuptools
 
 %description -n platform-python-%{srcname}
 Hypothesis is a library for testing your Python code against a much

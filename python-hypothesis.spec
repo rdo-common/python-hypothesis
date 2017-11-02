@@ -16,12 +16,14 @@ BuildRequires:  %{_bindir}/sphinx-build
 
 BuildArch:      noarch
 
-%description
-Hypothesis is a library for testing your Python code against a much
-larger range of examples than you would ever want to write by
-hand. It’s based on the Haskell library, Quickcheck, and is designed
-to integrate seamlessly into your existing Python unit testing work
+%global _description \
+Hypothesis is a library for testing your Python code against a much\
+larger range of examples than you would ever want to write by\
+hand. It’s based on the Haskell library, Quickcheck, and is designed\
+to integrate seamlessly into your existing Python unit testing work\
 flow.
+
+%description %{_description}
 
 %package     -n python2-%{srcname}
 Summary:        %{summary}
@@ -34,12 +36,9 @@ Suggests:       python2-numpy
 Suggests:       python2-pytz
 %endif
 
-%description -n python2-%{srcname}
-Hypothesis is a library for testing your Python code against a much
-larger range of examples than you would ever want to write by
-hand. It’s based on the Haskell library, Quickcheck, and is designed
-to integrate seamlessly into your existing Python unit testing work
-flow.
+%description -n python2-%{srcname} %{_description}
+
+Python 2 version.
 
 %package     -n python3-%{srcname}
 Summary:        %{summary}
@@ -52,12 +51,9 @@ Suggests:       python3-pytz
 %endif
 Obsoletes:      platform-python-%{srcname} < 3.12.0-5
 
-%description -n python3-%{srcname}
-Hypothesis is a library for testing your Python code against a much
-larger range of examples than you would ever want to write by
-hand. It’s based on the Haskell library, Quickcheck, and is designed
-to integrate seamlessly into your existing Python unit testing work
-flow.
+%description -n python3-%{srcname} %{_description}
+
+Python 2 version.
 
 %prep
 %autosetup -n %{srcname}-python-%{version} -p1

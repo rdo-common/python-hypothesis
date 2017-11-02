@@ -2,7 +2,6 @@
 
 %bcond_without python2
 %bcond_without python3
-%bcond_without platform_python
 
 Name:           python-%{srcname}
 Version:        3.12.0
@@ -56,22 +55,9 @@ BuildRequires:  python3-sphinx
 Suggests:       python3-numpy
 Suggests:       python3-pytz
 %endif
+Obsoletes:      platform-python-%{srcname} < 3.12.0-5
 
 %description -n python3-%{srcname}
-Hypothesis is a library for testing your Python code against a much
-larger range of examples than you would ever want to write by
-hand. It’s based on the Haskell library, Quickcheck, and is designed
-to integrate seamlessly into your existing Python unit testing work
-flow.
-%endif
-
-%if %{with platform_python}
-%package     -n platform-python-%{srcname}
-Summary:        %{summary}
-BuildRequires:  platform-python-devel
-BuildRequires:  platform-python-setuptools
-
-%description -n platform-python-%{srcname}
 Hypothesis is a library for testing your Python code against a much
 larger range of examples than you would ever want to write by
 hand. It’s based on the Haskell library, Quickcheck, and is designed
@@ -98,17 +84,9 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 PYTHONPATH=src READTHEDOCS=True sphinx-build-3 -b man docs docs/_build/man
 %endif
 
-%if %{with platform_python}
-%platform_py_build
-%endif
-
 %install
 %if %{with python2}
 %py2_install
-%endif
-
-%if %{with platform_python}
-%platform_py_install
 %endif
 
 %if %{with python3}
@@ -131,14 +109,6 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build-3 -b man docs docs/_build/man
 %license LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/*
-%{_mandir}/man1/hypothesis.1*
-%endif
-
-%if %{with platform_python}
-%files -n platform-python-%{srcname}
-%license LICENSE.txt
-%doc README.rst
-%{platform_python_sitelib}/*
 %{_mandir}/man1/hypothesis.1*
 %endif
 

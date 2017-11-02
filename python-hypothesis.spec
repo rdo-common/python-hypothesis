@@ -1,8 +1,5 @@
 %global srcname hypothesis
 
-%bcond_without python2
-%bcond_without python3
-
 Name:           python-%{srcname}
 Version:        3.12.0
 Release:        4%{?dist}
@@ -23,7 +20,6 @@ hand. It’s based on the Haskell library, Quickcheck, and is designed
 to integrate seamlessly into your existing Python unit testing work
 flow.
 
-%if %{with python2}
 %package     -n python2-%{srcname}
 Summary:        %{summary}
 BuildRequires:  python2-devel
@@ -42,9 +38,7 @@ larger range of examples than you would ever want to write by
 hand. It’s based on the Haskell library, Quickcheck, and is designed
 to integrate seamlessly into your existing Python unit testing work
 flow.
-%endif
 
-%if %{with python3}
 %package     -n python3-%{srcname}
 Summary:        %{summary}
 BuildRequires:  python3-devel
@@ -63,7 +57,6 @@ larger range of examples than you would ever want to write by
 hand. It’s based on the Haskell library, Quickcheck, and is designed
 to integrate seamlessly into your existing Python unit testing work
 flow.
-%endif
 
 %prep
 %autosetup -n %{srcname}-python-%{version} -p1
@@ -72,45 +65,28 @@ flow.
 %{__sed} -i -e 1,2d src/hypothesis/tools/mergedbs.py
 
 %build
-%if %{with python2}
 %py2_build
-%if %{without python3}
-PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
-%endif
-%endif
-
-%if %{with python3}
 %py3_build
-PYTHONPATH=src READTHEDOCS=True sphinx-build-3 -b man docs docs/_build/man
-%endif
+PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 
 %install
-%if %{with python2}
 %py2_install
-%endif
-
-%if %{with python3}
 %py3_install
-%endif
 
 %{__install} -Dp -m 644 docs/_build/man/hypothesis.1 \
              $RPM_BUILD_ROOT%{_mandir}/man1/hypothesis.1
 
-%if %{with python2}
 %files -n python2-%{srcname}
 %license LICENSE.txt
 %doc README.rst
 %{python2_sitelib}/*
 %{_mandir}/man1/hypothesis.1*
-%endif
 
-%if %{with python3}
 %files -n python3-%{srcname}
 %license LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/*
 %{_mandir}/man1/hypothesis.1*
-%endif
 
 %changelog
 * Thu Aug 24 2017 Miro Hrončok <mhroncok@redhat.com> - 3.12.0-4

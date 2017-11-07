@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        3.36.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Library for property based testing
 
 License:        MPLv2.0
@@ -57,7 +57,7 @@ Requires:       python3-coverage
 Suggests:       python3-numpy
 Suggests:       python3-pytz
 %endif
-Obsoletes:      platform-python-%{srcname} < 3.12.0-5
+Obsoletes:      platform-python-%{srcname} < %{version}-%{release}
 
 %description -n python3-%{srcname} %{_description}
 
@@ -93,6 +93,9 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 %{_mandir}/man1/hypothesis.1*
 
 %changelog
+* Tue Nov 07 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.36.0-2
+- Use better Obsoletes for platform-python
+
 * Tue Nov 07 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.36.0-1
 - Update to 3.36.0
 

@@ -1,8 +1,8 @@
 %global srcname hypothesis
 
 Name:           python-%{srcname}
-Version:        3.36.0
-Release:        2%{?dist}
+Version:        3.36.1
+Release:        1%{?dist}
 Summary:        Library for property based testing
 
 License:        MPLv2.0
@@ -93,6 +93,9 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 %{_mandir}/man1/hypothesis.1*
 
 %changelog
+* Sun Nov 12 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.36.1-1
+- Update to 3.36.1
+
 * Tue Nov 07 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.36.0-2
 - Use better Obsoletes for platform-python
 

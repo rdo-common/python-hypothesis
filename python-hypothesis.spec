@@ -1,7 +1,7 @@
 %global srcname hypothesis
 
 Name:           python-%{srcname}
-Version:        3.36.1
+Version:        3.37.0
 Release:        1%{?dist}
 Summary:        Library for property based testing
 
@@ -93,6 +93,9 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 %{_mandir}/man1/hypothesis.1*
 
 %changelog
+* Mon Nov 13 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.37.0-1
+- Update to 3.37.0
+
 * Sun Nov 12 2017 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.36.1-1
 - Update to 3.36.1
 

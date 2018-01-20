@@ -1,5 +1,7 @@
 %global srcname hypothesis
 
+%?python_enable_dependency_generator
+
 Name:           python-%{srcname}
 Version:        3.44.17
 Release:        1%{?dist}
@@ -27,18 +29,15 @@ flow.
 
 %package     -n python2-%{srcname}
 Summary:        %{summary}
-BuildRequires:  python2-devel
-BuildRequires:  python2-attrs
-BuildRequires:  python2-coverage
-BuildRequires:  python2-enum34
 %{?python_provide:%python_provide python2-%{srcname}}
-Requires:       python2-attrs
-Requires:       python2-coverage
-Requires:       python2-enum34
-%if ! (0%{?rhel} && 0%{?rhel} <= 7)
-Suggests:       python2-numpy
-Suggests:       python2-pytz
-%endif
+BuildRequires:  python2-devel
+BuildRequires:  python2-setuptools
+BuildRequires:  python2dist(attrs)
+BuildRequires:  python2dist(coverage)
+BuildRequires:  python2dist(enum34)
+Suggests:       python%{python2_version}dist(pytz)
+Suggests:       python%{python2_version}dist(numpy) >= 1.9.0
+Suggests:       python%{python2_version}dist(pytest) >= 2.8.0
 
 %description -n python2-%{srcname} %{_description}
 
@@ -46,18 +45,15 @@ Python 2 version.
 
 %package     -n python3-%{srcname}
 Summary:        %{summary}
+%{?python_provide:%python_provide python3-%{srcname}}
+Obsoletes:      platform-python-%{srcname} < %{version}-%{release}
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
-BuildRequires:  python3-attrs
-BuildRequires:  python3-coverage
-%{?python_provide:%python_provide python3-%{srcname}}
-Requires:       python3-attrs
-Requires:       python3-coverage
-%if ! (0%{?rhel} && 0%{?rhel} <= 7)
-Suggests:       python3-numpy
-Suggests:       python3-pytz
-%endif
-Obsoletes:      platform-python-%{srcname} < %{version}-%{release}
+BuildRequires:  python3dist(attrs)
+BuildRequires:  python3dist(coverage)
+Suggests:       python%{python3_version}dist(pytz)
+Suggests:       python%{python3_version}dist(numpy) >= 1.9.0
+Suggests:       python%{python3_version}dist(pytest) >= 2.8.0
 
 %description -n python3-%{srcname} %{_description}
 

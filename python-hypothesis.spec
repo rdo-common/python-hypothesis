@@ -4,7 +4,7 @@
 
 Name:           python-%{srcname}
 Version:        3.44.24
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Library for property based testing
 
 License:        MPLv2.0
@@ -87,6 +87,9 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 %{_mandir}/man1/hypothesis.1*
 
 %changelog
+* Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 3.44.24-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
 * Sun Jan 28 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.44.24-1
 - Update to 3.44.24
 

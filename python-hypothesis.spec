@@ -4,7 +4,7 @@
 
 Name:           python-%{srcname}
 Version:        3.44.24
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Library for property based testing
 
 License:        MPLv2.0
@@ -35,6 +35,8 @@ BuildRequires:  python2-setuptools
 BuildRequires:  python2dist(attrs)
 BuildRequires:  python2dist(coverage)
 BuildRequires:  python2dist(enum34)
+# https://github.com/rpm-software-management/rpm/issues/382
+Requires:       python%{python2_version}dist(enum34)
 Suggests:       python%{python2_version}dist(pytz)
 Suggests:       python%{python2_version}dist(numpy) >= 1.9.0
 Suggests:       python%{python2_version}dist(pytest) >= 2.8.0
@@ -87,6 +89,9 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 %{_mandir}/man1/hypothesis.1*
 
 %changelog
+* Sat Feb 10 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.44.24-3
+- Add missing dependency on enum34
+
 * Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 3.44.24-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 

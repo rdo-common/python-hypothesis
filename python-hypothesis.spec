@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        3.49.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Library for property based testing
 
 License:        MPLv2.0
@@ -86,6 +86,9 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 %{_mandir}/man1/hypothesis.1*
 
 %changelog
+* Thu Jun 14 2018 Miro Hrončok <mhroncok@redhat.com> - 3.49.0-2
+- Rebuilt for Python 3.7
+
 * Mon Mar 12 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.49.0-1
 - Update to 3.49.0
 

@@ -2,13 +2,13 @@
 %global srcname hypothesis
 
 Name:           python-%{srcname}
-Version:        3.56.7
+Version:        3.66.0
 Release:        1%{?dist}
 Summary:        Library for property based testing
 
 License:        MPLv2.0
 URL:            https://github.com/HypothesisWorks/hypothesis-python
-Source0:        %{url}/archive/%{version}/%{srcname}-%{version}.tar.gz
+Source0:        %{url}/archive/%{srcname}-python-%{version}/%{srcname}-%{version}.tar.gz
 # disable Sphinx extensions that require Internet access
 Patch0:         %{srcname}-3.12.0-offline.patch
 
@@ -56,10 +56,10 @@ Suggests:       python%{python3_version}dist(pytest) >= 2.8.0
 
 %description -n python3-%{srcname} %{_description}
 
-Python 2 version.
+Python 3 version.
 
 %prep
-%autosetup -n %{srcname}-python-%{version} -p1
+%autosetup -n %{srcname}-%{srcname}-python-%{version}/%{srcname}-python -p1
 
 %build
 %py2_build
@@ -72,20 +72,23 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 %{__install} -Dpm0644 -t %{buildroot}%{_mandir}/man1 docs/_build/man/hypothesis.1
 
 %files -n python2-%{srcname}
-%license LICENSE.txt
+%license ../LICENSE.txt
 %doc README.rst
 %{python2_sitelib}/hypothesis-*.egg-info/
 %{python2_sitelib}/hypothesis/
 %{_mandir}/man1/hypothesis.1*
 
 %files -n python3-%{srcname}
-%license LICENSE.txt
+%license ../LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/hypothesis-*.egg-info
 %{python3_sitelib}/hypothesis/
 %{_mandir}/man1/hypothesis.1*
 
 %changelog
+* Sat Jul 07 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.66.0-1
+- Update to 3.66.0
+
 * Sat Jul 07 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.56.7-1
 - Update to 3.56.7
 

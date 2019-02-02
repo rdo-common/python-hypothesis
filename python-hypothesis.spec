@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        3.66.11
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Library for property based testing
 
 License:        MPLv2.0
@@ -86,6 +86,9 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 %{_mandir}/man1/hypothesis.1*
 
 %changelog
+* Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.66.11-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Sat Jul 28 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 3.66.11-1
 - Update to 3.66.11
 

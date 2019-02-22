@@ -1,3 +1,9 @@
+%if 0%{?fedora} || 0%{?rhel} >= 8
+%global with_python3 1
+%else
+%global with_python3 0
+%endif
+
 %{?python_enable_dependency_generator}
 %global srcname hypothesis
 
@@ -31,17 +37,18 @@ Summary:        %{summary}
 %{?python_provide:%python_provide python2-%{srcname}}
 BuildRequires:  python2-devel
 BuildRequires:  python2-setuptools
-BuildRequires:  python2dist(attrs)
-BuildRequires:  python2dist(coverage)
-BuildRequires:  python2dist(enum34)
-Suggests:       python%{python2_version}dist(pytz)
-Suggests:       python%{python2_version}dist(numpy) >= 1.9.0
-Suggests:       python%{python2_version}dist(pytest) >= 2.8.0
+BuildRequires:  python2-attrs
+BuildRequires:  python2-coverage
+BuildRequires:  python-enum34
+#Suggests:       python%{python2_version}dist(pytz)
+#Suggests:       python%{python2_version}dist(numpy) >= 1.9.0
+#Suggests:       python%{python2_version}dist(pytest) >= 2.8.0
 
 %description -n python2-%{srcname} %{_description}
 
 Python 2 version.
 
+%if 0%{?with_python3}
 %package     -n python3-%{srcname}
 Summary:        %{summary}
 %{?python_provide:%python_provide python3-%{srcname}}
@@ -58,18 +65,25 @@ Suggests:       python%{python3_version}dist(pytest) >= 2.8.0
 
 Python 3 version.
 
+%endif
+
 %prep
 %autosetup -n %{srcname}-%{srcname}-python-%{version}/%{srcname}-python -p1
 
 %build
 %py2_build
+%if 0%{?with_python3}
 %py3_build
+%endif
 PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 
 %install
 %py2_install
+%if 0%{?with_python3}
 %py3_install
-%{__install} -Dpm0644 -t %{buildroot}%{_mandir}/man1 docs/_build/man/hypothesis.1
+%endif
+%{__install} -Dpm0755 -d %{buildroot}%{_mandir}/man1
+%{__install} docs/_build/man/hypothesis.1 %{buildroot}%{_mandir}/man1
 
 %files -n python2-%{srcname}
 %license ../LICENSE.txt
@@ -78,12 +92,14 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 %{python2_sitelib}/hypothesis/
 %{_mandir}/man1/hypothesis.1*
 
+%if 0%{?with_python3}
 %files -n python3-%{srcname}
 %license ../LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/hypothesis-*.egg-info
 %{python3_sitelib}/hypothesis/
 %{_mandir}/man1/hypothesis.1*
+%endif
 
 %changelog
 * Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 3.66.11-2

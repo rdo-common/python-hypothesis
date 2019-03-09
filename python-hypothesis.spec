@@ -9,8 +9,6 @@ Summary:        Library for property based testing
 License:        MPLv2.0
 URL:            https://github.com/HypothesisWorks/hypothesis-python
 Source0:        %{url}/archive/%{srcname}-python-%{version}/%{srcname}-%{version}.tar.gz
-# disable Sphinx extensions that require Internet access
-Patch0:         %{srcname}-3.12.0-offline.patch
 
 # Manpage
 BuildRequires:  %{_bindir}/sphinx-build
@@ -31,12 +29,12 @@ Summary:        %{summary}
 %{?python_provide:%python_provide python2-%{srcname}}
 BuildRequires:  python2-devel
 BuildRequires:  python2-setuptools
-BuildRequires:  python2dist(attrs)
+BuildRequires:  python2dist(attrs) >= 16.0.0
 BuildRequires:  python2dist(coverage)
 BuildRequires:  python2dist(enum34)
-Suggests:       python%{python2_version}dist(pytz)
+Suggests:       python%{python2_version}dist(pytz) >= 2014.1
 Suggests:       python%{python2_version}dist(numpy) >= 1.9.0
-Suggests:       python%{python2_version}dist(pytest) >= 2.8.0
+Suggests:       python%{python2_version}dist(pytest) >= 3.0
 
 %description -n python2-%{srcname} %{_description}
 
@@ -48,11 +46,11 @@ Summary:        %{summary}
 Obsoletes:      platform-python-%{srcname} < %{version}-%{release}
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
-BuildRequires:  python3dist(attrs)
+BuildRequires:  python3dist(attrs) >= 16.0.0
 BuildRequires:  python3dist(coverage)
-Suggests:       python%{python3_version}dist(pytz)
+Suggests:       python%{python3_version}dist(pytz) >= 2014.1
 Suggests:       python%{python3_version}dist(numpy) >= 1.9.0
-Suggests:       python%{python3_version}dist(pytest) >= 2.8.0
+Suggests:       python%{python3_version}dist(pytest) >= 3.0
 
 %description -n python3-%{srcname} %{_description}
 
@@ -60,6 +58,8 @@ Python 3 version.
 
 %prep
 %autosetup -n %{srcname}-%{srcname}-python-%{version}/%{srcname}-python -p1
+# disable Sphinx extensions that require Internet access
+sed -i -e '/sphinx.ext.intersphinx/d' docs/conf.py
 
 %build
 %py2_build

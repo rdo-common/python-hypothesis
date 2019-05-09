@@ -2,7 +2,7 @@
 %global srcname hypothesis
 
 Name:           python-%{srcname}
-Version:        4.9.0
+Version:        4.23.4
 Release:        1%{?dist}
 Summary:        Library for property based testing
 
@@ -86,6 +86,9 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 %{_mandir}/man1/hypothesis.1*
 
 %changelog
+* Thu May 09 2019 Miro Hrončok <mhroncok@redhat.com> - 4.23.4-1
+- Update to 4.23.4 (#1609770)
+
 * Sat Mar 09 2019 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 4.9.0-1
 - Update to 4.9.0
 

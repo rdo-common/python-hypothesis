@@ -15,6 +15,9 @@ BuildRequires:  %{_bindir}/sphinx-build
 
 BuildArch:      noarch
 
+# Needs pytest and others, but hypothesis is built sooner than pytest when bootstrapping
+%bcond_without tests
+
 %global _description \
 Hypothesis is a library for testing your Python code against a much\
 larger range of examples than you would ever want to write by\
@@ -48,6 +51,16 @@ BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
 BuildRequires:  python3dist(attrs) >= 16.0.0
 BuildRequires:  python3dist(coverage)
+%if %{with tests}
+#BuildRequires:  python3dist(django)
+#BuildRequires:  python3dist(dpcontracts)
+#BuildRequires:  python3dist(lark)
+BuildRequires:  python3dist(mock)
+BuildRequires:  python3dist(numpy)
+BuildRequires:  python3dist(pandas)
+BuildRequires:  python3dist(pytest)
+BuildRequires:  python3dist(pytest-xdist)
+%endif
 Suggests:       python%{python3_version}dist(pytz) >= 2014.1
 Suggests:       python%{python3_version}dist(numpy) >= 1.9.0
 Suggests:       python%{python3_version}dist(pytest) >= 3.0
@@ -61,6 +74,11 @@ Python 3 version.
 # disable Sphinx extensions that require Internet access
 sed -i -e '/sphinx.ext.intersphinx/d' docs/conf.py
 
+# remove tests we cannot run
+rm -r tests/py2 # python 2
+rm -r tests/lark tests/dpcontracts # missing deps
+rm -r tests/django # doesn't work, maybe bad django version
+
 %build
 %py2_build
 %py3_build
@@ -70,6 +88,11 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 %py2_install
 %py3_install
 %{__install} -Dpm0644 -t %{buildroot}%{_mandir}/man1 docs/_build/man/hypothesis.1
+
+%if %{with tests}
+%check
+PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v -n auto
+%endif
 
 %files -n python2-%{srcname}
 %license ../LICENSE.txt

@@ -32,7 +32,7 @@ Summary:        %{summary}
 %{?python_provide:%python_provide python2-%{srcname}}
 BuildRequires:  python2-devel
 BuildRequires:  python2-setuptools
-BuildRequires:  python2dist(attrs) >= 16.0.0
+BuildRequires:  python2dist(attrs) >= 16
 BuildRequires:  python2dist(coverage)
 BuildRequires:  python2dist(enum34)
 Suggests:       python%{python2_version}dist(pytz) >= 2014.1
@@ -49,7 +49,7 @@ Summary:        %{summary}
 Obsoletes:      platform-python-%{srcname} < %{version}-%{release}
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
-BuildRequires:  python3dist(attrs) >= 16.0.0
+BuildRequires:  python3dist(attrs) >= 16
 BuildRequires:  python3dist(coverage)
 %if %{with tests}
 #BuildRequires:  python3dist(django)

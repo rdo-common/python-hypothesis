@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        4.23.8
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Library for property based testing
 
 License:        MPLv2.0
@@ -109,6 +109,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v -n auto
 %{_mandir}/man1/hypothesis.1*
 
 %changelog
+* Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 4.23.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Tue May 28 2019 Miro Hrončok <mhroncok@redhat.com> - 4.23.8-1
 - Update to 4.23.8 (#1711096)
 

@@ -91,7 +91,7 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 
 %if %{with tests}
 %check
-PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v -n auto
+PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v -n auto -k "not test_healthcheck_traceback_is_hidden"
 %endif
 
 %files -n python2-%{srcname}

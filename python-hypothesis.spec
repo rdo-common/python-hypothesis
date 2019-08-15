@@ -1,9 +1,10 @@
+%global _without_tests 1
 %{?python_enable_dependency_generator}
 %global srcname hypothesis
 
 Name:           python-%{srcname}
 Version:        4.23.8
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Library for property based testing
 
 License:        MPLv2.0
@@ -109,6 +110,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v -n auto -k "not test_healt
 %{_mandir}/man1/hypothesis.1*
 
 %changelog
+* Thu Aug 15 2019 Miro Hrončok <mhroncok@redhat.com> - 4.23.8-3
+- Bootstrap for Python 3.8
+
 * Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 4.23.8-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 

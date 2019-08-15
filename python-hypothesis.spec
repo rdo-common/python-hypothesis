@@ -1,4 +1,5 @@
 %global _without_tests 1
+%global _without_doc 1
 %{?python_enable_dependency_generator}
 %global srcname hypothesis
 
@@ -11,13 +12,16 @@ License:        MPLv2.0
 URL:            https://github.com/HypothesisWorks/hypothesis-python
 Source0:        %{url}/archive/%{srcname}-python-%{version}/%{srcname}-%{version}.tar.gz
 
-# Manpage
-BuildRequires:  %{_bindir}/sphinx-build
-
 BuildArch:      noarch
 
 # Needs pytest and others, but hypothesis is built sooner than pytest when bootstrapping
 %bcond_without tests
+%bcond_without doc
+
+%if %{with doc}
+# Manpage
+BuildRequires:  %{_bindir}/sphinx-build
+%endif
 
 %global _description \
 Hypothesis is a library for testing your Python code against a much\
@@ -83,12 +87,16 @@ rm -r tests/django # doesn't work, maybe bad django version
 %build
 %py2_build
 %py3_build
+%if %{with doc}
 PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
+%endif
 
 %install
 %py2_install
 %py3_install
+%if %{with doc}
 %{__install} -Dpm0644 -t %{buildroot}%{_mandir}/man1 docs/_build/man/hypothesis.1
+%endif
 
 %if %{with tests}
 %check
@@ -100,14 +108,18 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v -n auto -k "not test_healt
 %doc README.rst
 %{python2_sitelib}/hypothesis-*.egg-info/
 %{python2_sitelib}/hypothesis/
+%if %{with doc}
 %{_mandir}/man1/hypothesis.1*
+%endif
 
 %files -n python3-%{srcname}
 %license ../LICENSE.txt
 %doc README.rst
 %{python3_sitelib}/hypothesis-*.egg-info
 %{python3_sitelib}/hypothesis/
+%if %{with doc}
 %{_mandir}/man1/hypothesis.1*
+%endif
 
 %changelog
 * Thu Aug 15 2019 Miro Hrončok <mhroncok@redhat.com> - 4.23.8-3

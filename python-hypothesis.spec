@@ -1,11 +1,9 @@
-%global _without_tests 1
-%global _without_doc 1
 %{?python_enable_dependency_generator}
 %global srcname hypothesis
 
 Name:           python-%{srcname}
 Version:        4.23.8
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Library for property based testing
 
 License:        MPLv2.0
@@ -122,6 +120,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v -n auto -k "not test_healt
 %endif
 
 %changelog
+* Mon Aug 19 2019 Miro Hrončok <mhroncok@redhat.com> - 4.23.8-4
+- Rebuilt for Python 3.8
+
 * Thu Aug 15 2019 Miro Hrončok <mhroncok@redhat.com> - 4.23.8-3
 - Bootstrap for Python 3.8
 

@@ -3,7 +3,7 @@
 
 Name:           python-%{srcname}
 Version:        4.23.8
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Library for property based testing
 
 License:        MPLv2.0
@@ -120,6 +120,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v -n auto -k "not test_healt
 %endif
 
 %changelog
+* Thu Oct 03 2019 Miro Hrončok <mhroncok@redhat.com> - 4.23.8-5
+- Rebuilt for Python 3.8.0rc1 (#1748018)
+
 * Mon Aug 19 2019 Miro Hrončok <mhroncok@redhat.com> - 4.23.8-4
 - Rebuilt for Python 3.8
 

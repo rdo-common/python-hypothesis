@@ -1,4 +1,3 @@
-%{?python_enable_dependency_generator}
 %global srcname hypothesis
 
 Name:           python-%{srcname}

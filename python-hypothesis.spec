@@ -2,7 +2,7 @@
 
 Name:           python-%{srcname}
 Version:        4.23.8
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Library for property based testing
 
 License:        MPLv2.0
@@ -28,22 +28,6 @@ to integrate seamlessly into your existing Python unit testing work\
 flow.
 
 %description %{_description}
-
-%package     -n python2-%{srcname}
-Summary:        %{summary}
-%{?python_provide:%python_provide python2-%{srcname}}
-BuildRequires:  python2-devel
-BuildRequires:  python2-setuptools
-BuildRequires:  python2dist(attrs) >= 16
-BuildRequires:  python2dist(coverage)
-BuildRequires:  python2dist(enum34)
-Suggests:       python%{python2_version}dist(pytz) >= 2014.1
-Suggests:       python%{python2_version}dist(numpy) >= 1.9.0
-Suggests:       python%{python2_version}dist(pytest) >= 3.0
-
-%description -n python2-%{srcname} %{_description}
-
-Python 2 version.
 
 %package     -n python3-%{srcname}
 Summary:        %{summary}
@@ -82,14 +66,12 @@ rm -r tests/lark tests/dpcontracts # missing deps
 rm -r tests/django # doesn't work, maybe bad django version
 
 %build
-%py2_build
 %py3_build
 %if %{with doc}
 PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 %endif
 
 %install
-%py2_install
 %py3_install
 %if %{with doc}
 %{__install} -Dpm0644 -t %{buildroot}%{_mandir}/man1 docs/_build/man/hypothesis.1
@@ -98,15 +80,6 @@ PYTHONPATH=src READTHEDOCS=True sphinx-build -b man docs docs/_build/man
 %if %{with tests}
 %check
 PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v -n auto -k "not test_healthcheck_traceback_is_hidden"
-%endif
-
-%files -n python2-%{srcname}
-%license ../LICENSE.txt
-%doc README.rst
-%{python2_sitelib}/hypothesis-*.egg-info/
-%{python2_sitelib}/hypothesis/
-%if %{with doc}
-%{_mandir}/man1/hypothesis.1*
 %endif
 
 %files -n python3-%{srcname}
@@ -119,6 +92,9 @@ PYTHONPATH=%{buildroot}%{python3_sitelib} pytest-3 -v -n auto -k "not test_healt
 %endif
 
 %changelog
+* Mon Nov 11 2019 Miro Hrončok <mhroncok@redhat.com> - 4.23.8-6
+- Drop python2-hypothesis
+
 * Thu Oct 03 2019 Miro Hrončok <mhroncok@redhat.com> - 4.23.8-5
 - Rebuilt for Python 3.8.0rc1 (#1748018)
 

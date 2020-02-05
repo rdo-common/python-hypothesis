@@ -1,3 +1,4 @@
+%{?python_enable_dependency_generator}
 %global srcname hypothesis
 
 Name:           python-%{srcname}
@@ -12,7 +13,7 @@ Source0:        %{url}/archive/%{srcname}-python-%{version}/%{srcname}-%{version
 BuildArch:      noarch
 
 # Needs pytest and others, but hypothesis is built sooner than pytest when bootstrapping
-%bcond_without tests
+%bcond_with tests
 %bcond_without doc
 
 %if %{with doc}
